@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "eventId": 1,
+    "name": "Arman Ahmad",
+    "email": "erarmanonemail@gmail.com",
+    "phone": "08840819588",
+    "registeredAt": "2025-09-24T06:06:21.907Z"
+  },
+  {
+    "id": 2,
+    "eventId": 1,
+    "name": "aditya",
+    "email": "armaankanpur4@gmail.com",
+    "phone": "08840819588",
+    "registeredAt": "2025-09-24T06:14:45.143Z"
+  }
+]

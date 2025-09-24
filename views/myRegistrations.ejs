@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Registrations - Event Registration System</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link href="/css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container">
+        <a class="navbar-brand" href="/">
+          <i class="bi bi-calendar-event"></i>
+          Event Registration
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/my-registrations"
+                >My Registrations</a
+              >
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/admin">
+                <i class="bi bi-gear"></i>
+                Admin
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container my-4">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <h1 class="mb-4">
+            <i class="bi bi-person-check text-primary"></i>
+            My Registrations
+          </h1>
+
+          <!-- Search Form -->
+          <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-light">
+              <h5 class="mb-0">
+                <i class="bi bi-search"></i>
+                Find Your Registrations
+              </h5>
+            </div>
+            <div class="card-body">
+              <% if (errors && errors.length > 0) { %>
+              <div class="alert alert-danger">
+                <ul class="mb-0">
+                  <% errors.forEach(error => { %>
+                  <li><%= error.msg %></li>
+                  <% }) %>
+                </ul>
+              </div>
+              <% } %>
+
+              <form method="POST" action="/search-registrations">
+                <div class="row">
+                  <div class="col-md-8 mb-3 mb-md-0">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      name="email"
+                      placeholder="Enter your email address"
+                      value="<%= typeof searchEmail !== 'undefined' ? searchEmail : '' %>"
+                      required
+                    />
+                  </div>
+                  <div class="col-md-4 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">
+                      <i class="bi bi-search"></i>
+                      Search
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Results -->
+          <% if (typeof registrations !== 'undefined' && registrations !== null)
+          { %> <% if (registrations.length === 0) { %>
+          <div class="text-center py-5">
+            <i class="bi bi-inbox text-muted" style="font-size: 4rem"></i>
+            <h3 class="text-muted mt-3">No registrations found</h3>
+            <p class="text-muted">
+              No events registered with the email address:
+              <strong><%= searchEmail %></strong>
+            </p>
+            <a href="/" class="btn btn-primary">
+              <i class="bi bi-calendar-plus"></i>
+              Browse Events
+            </a>
+          </div>
+          <% } else { %>
+          <div class="alert alert-success">
+            <i class="bi bi-check-circle me-2"></i>
+            Found <strong><%= registrations.length %></strong> registration<%=
+            registrations.length !== 1 ? 's' : '' %> for
+            <strong><%= searchEmail %></strong>
+          </div>
+
+          <div class="row">
+            <% events.forEach(eventReg => { %>
+            <div class="col-12 mb-3">
+              <div class="card shadow-sm">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-8">
+                      <h5 class="card-title text-primary">
+                        <i class="bi bi-calendar-event"></i>
+                        <%= eventReg.event.title %>
+                      </h5>
+                      <p class="card-text text-muted mb-2">
+                        <%= eventReg.event.description %>
+                      </p>
+
+                      <div class="row">
+                        <div class="col-sm-6 mb-2">
+                          <i class="bi bi-calendar3 text-primary me-2"></i>
+                          <strong>Date:</strong> <%= eventReg.event.date %>
+                        </div>
+                        <div class="col-sm-6 mb-2">
+                          <i class="bi bi-clock text-primary me-2"></i>
+                          <strong>Time:</strong> <%= eventReg.event.time %>
+                        </div>
+                      </div>
+                      <div class="mb-2">
+                        <i class="bi bi-geo-alt text-primary me-2"></i>
+                        <strong>Location:</strong> <%= eventReg.event.location
+                        %>
+                      </div>
+                    </div>
+
+                    <div class="col-md-4">
+                      <h6 class="text-muted">Registration Details</h6>
+                      <div class="mb-1">
+                        <i class="bi bi-person text-primary me-2"></i>
+                        <strong>Name:</strong> <%= eventReg.name %>
+                      </div>
+                      <div class="mb-1">
+                        <i class="bi bi-telephone text-primary me-2"></i>
+                        <strong>Phone:</strong> <%= eventReg.phone %>
+                      </div>
+                      <div class="mb-1">
+                        <i class="bi bi-calendar-check text-primary me-2"></i>
+                        <strong>Registered:</strong> <%= new
+                        Date(eventReg.registeredAt).toLocaleDateString() %>
+                      </div>
+                      <div class="mt-2">
+                        <span class="badge bg-success">
+                          <i class="bi bi-check-circle"></i>
+                          Confirmed
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% }) %>
+          </div>
+          <% } %> <% } %>
+        </div>
+      </div>
+    </main>
+
+    <footer class="bg-light mt-5 py-3">
+      <div class="container text-center">
+        <p class="mb-0">
+          &copy; 2025 Event Registration System. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "title": "this is ",
+    "description": "new event",
+    "date": "2026-05-26",
+    "time": "05:20",
+    "location": "kanpur",
+    "maxParticipants": 3,
+    "createdAt": "2025-09-24T06:00:42.181Z"
+  }
+]

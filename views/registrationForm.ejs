@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register for <%= event.title %> - Event Registration System</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link href="/css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container">
+        <a class="navbar-brand" href="/">
+          <i class="bi bi-calendar-event"></i>
+          Event Registration
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/my-registrations">My Registrations</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/admin">
+                <i class="bi bi-gear"></i>
+                Admin
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container my-4">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+          <!-- Event Details -->
+          <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-info text-white">
+              <h5 class="mb-0">
+                <i class="bi bi-info-circle"></i>
+                Event Details
+              </h5>
+            </div>
+            <div class="card-body">
+              <h4 class="text-primary"><%= event.title %></h4>
+              <p class="text-muted"><%= event.description %></p>
+
+              <div class="row">
+                <div class="col-sm-6 mb-2">
+                  <i class="bi bi-calendar3 text-primary me-2"></i>
+                  <strong>Date:</strong> <%= event.date %>
+                </div>
+                <div class="col-sm-6 mb-2">
+                  <i class="bi bi-clock text-primary me-2"></i>
+                  <strong>Time:</strong> <%= event.time %>
+                </div>
+              </div>
+              <div class="mb-2">
+                <i class="bi bi-geo-alt text-primary me-2"></i>
+                <strong>Location:</strong> <%= event.location %>
+              </div>
+              <div class="mb-2">
+                <i class="bi bi-people text-primary me-2"></i>
+                <strong>Max Participants:</strong> <%= event.maxParticipants %>
+              </div>
+            </div>
+          </div>
+
+          <!-- Registration Form -->
+          <div class="card shadow">
+            <div class="card-header bg-success text-white">
+              <h4 class="mb-0">
+                <i class="bi bi-person-plus"></i>
+                Registration Form
+              </h4>
+            </div>
+
+            <div class="card-body">
+              <% if (errors && errors.length > 0) { %>
+              <div class="alert alert-danger">
+                <h6 class="alert-heading">Please fix the following errors:</h6>
+                <ul class="mb-0">
+                  <% errors.forEach(error => { %>
+                  <li><%= error.msg %></li>
+                  <% }) %>
+                </ul>
+              </div>
+              <% } %>
+
+              <form method="POST" action="/register">
+                <input type="hidden" name="eventId" value="<%= event.id %>" />
+
+                <div class="mb-3">
+                  <label for="name" class="form-label">Full Name *</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    name="name"
+                    placeholder="Enter your full name"
+                    required
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email Address *</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email address"
+                    required
+                  />
+                  <div class="form-text">
+                    We'll use this to send you event updates and confirmation.
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <label for="phone" class="form-label">Phone Number *</label>
+                  <input
+                    type="tel"
+                    class="form-control"
+                    id="phone"
+                    name="phone"
+                    placeholder="Enter your phone number"
+                    required
+                  />
+                </div>
+
+                <div class="alert alert-info">
+                  <i class="bi bi-info-circle me-2"></i>
+                  <strong>Please note:</strong> By registering, you confirm your
+                  attendance for this event. Make sure to arrive on time at the
+                  specified location.
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                  <a href="/" class="btn btn-outline-secondary me-md-2">
+                    <i class="bi bi-arrow-left"></i>
+                    Back to Events
+                  </a>
+                  <button type="submit" class="btn btn-success">
+                    <i class="bi bi-check-circle"></i>
+                    Register for Event
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="bg-light mt-5 py-3">
+      <div class="container text-center">
+        <p class="mb-0">
+          &copy; 2025 Event Registration System. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="/js/main.js"></script> -->
+  </body>
+</html>

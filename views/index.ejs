@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Registration System</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link href="/css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container">
+        <a class="navbar-brand" href="/">
+          <i class="bi bi-calendar-event"></i>
+          Event Registration
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/my-registrations">My Registrations</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/admin">
+                <i class="bi bi-gear"></i>
+                Admin
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container my-4">
+      <div class="row">
+        <div class="col-12">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="mb-0">
+              <i class="bi bi-calendar-check text-primary"></i>
+              Upcoming Events
+            </h1>
+            <div class="text-muted">
+              <%= events.length %> event<%= events.length !== 1 ? 's' : '' %>
+              available
+            </div>
+          </div>
+
+          <% if (events.length === 0) { %>
+          <div class="text-center py-5">
+            <i class="bi bi-calendar-x text-muted" style="font-size: 4rem"></i>
+            <h3 class="text-muted mt-3">No events available</h3>
+            <p class="text-muted">Check back later for upcoming events!</p>
+          </div>
+          <% } else { %>
+          <div class="row">
+            <% events.forEach(event => { %>
+            <div class="col-md-6 col-lg-4 mb-4">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                  <h5 class="card-title text-primary">
+                    <i class="bi bi-star-fill"></i>
+                    <%= event.title %>
+                  </h5>
+                  <p class="card-text text-muted mb-3">
+                    <%= event.description %>
+                  </p>
+
+                  <div class="event-details mb-3">
+                    <div class="mb-2">
+                      <i class="bi bi-calendar3 text-primary me-2"></i>
+                      <strong>Date:</strong> <%= event.date %>
+                    </div>
+                    <div class="mb-2">
+                      <i class="bi bi-clock text-primary me-2"></i>
+                      <strong>Time:</strong> <%= event.time %>
+                    </div>
+                    <div class="mb-2">
+                      <i class="bi bi-geo-alt text-primary me-2"></i>
+                      <strong>Location:</strong> <%= event.location %>
+                    </div>
+                  </div>
+
+                  <div
+                    class="d-flex justify-content-between align-items-center mb-3"
+                  >
+                    <div class="availability-info">
+                      <% if (event.spotsAvailable > 0) { %>
+                      <span class="badge bg-success">
+                        <i class="bi bi-check-circle"></i>
+                        <%= event.spotsAvailable %> spots available
+                      </span>
+                      <% } else { %>
+                      <span class="badge bg-danger">
+                        <i class="bi bi-x-circle"></i>
+                        Fully booked
+                      </span>
+                      <% } %>
+                    </div>
+                  </div>
+
+                  <div class="registration-progress mb-3">
+                    <div
+                      class="d-flex justify-content-between small text-muted mb-1"
+                    >
+                      <span>Registered: <%= event.registrationCount %></span>
+                      <span>Max: <%= event.maxParticipants %></span>
+                    </div>
+                    <div class="progress" style="height: 6px">
+                      <div
+                        class="progress-bar bg-primary"
+                        style="
+                          width: <%=
+                            Math.round(
+                              (event.registrationCount / event.maxParticipants) *
+                                100
+                            )
+                            %>%;
+                        "
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-footer bg-transparent">
+                  <% if (event.spotsAvailable > 0) { %>
+                  <a
+                    href="/register/<%= event.id %>"
+                    class="btn btn-primary w-100"
+                  >
+                    <i class="bi bi-person-plus"></i>
+                    Register Now
+                  </a>
+                  <% } else { %>
+                  <button class="btn btn-secondary w-100" disabled>
+                    <i class="bi bi-x-circle"></i>
+                    Event Full
+                  </button>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+            <% }) %>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </main>
+
+    <footer class="bg-light mt-5 py-3">
+      <div class="container text-center">
+        <p class="mb-0">
+          &copy; 2025 Event Registration System. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/main.js"></script>
+  </body>
+</html>
